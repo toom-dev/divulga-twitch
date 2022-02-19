@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
+</head>
+<body>
+    <h1 id="haha">asdasd</h1>
+    <script>
+        ComfyJS.onCommand = (user, command, message, flags, extra) => {
+
+            if (flags.broadcaster && command === "giripoca" && message === '') {
+                ComfyJS.Say(`Digite o nome do canal para poder divulgar! (ex: !${command} joaozinho_1)`);
+            } else if (flags.broadcaster && command === `giripoca` && message != '') {
+                ComfyJS.Say(`https://www.twitch.tv/${message}`);
+                console.log(extra.userColor);
+                var haha = document.querySelector('h1#haha');
+                haha.style.color = extra.userColor;
+                haha.innerText = extra.displayName;
+                
+            }
+        }
+        ComfyJS.Init( "tom_gamer904" );
+    </script>
+</body>
+</html>
