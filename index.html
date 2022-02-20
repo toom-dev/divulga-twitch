@@ -8,18 +8,28 @@
     <script src="https://cdn.jsdelivr.net/npm/comfy.js@latest/dist/comfy.min.js"></script>
 </head>
 <body>
+    <img src="" alt="User" id="user">
     <h1 id="haha">asdasd</h1>
+
+
+    <script src="/index.js"></script>
     <script>
         ComfyJS.onCommand = (user, command, message, flags, extra) => {
 
             if (flags.broadcaster && command === "giripoca" && message === '') {
                 ComfyJS.Say(`Digite o nome do canal para poder divulgar! (ex: !${command} joaozinho_1)`);
             } else if (flags.broadcaster && command === `giripoca` && message != '') {
+                
+                main()
+                user = message
                 ComfyJS.Say(`https://www.twitch.tv/${message}`);
-                console.log(extra.userColor);
+                console.log(extra.userId);
                 var haha = document.querySelector('h1#haha');
                 haha.style.color = extra.userColor;
                 haha.innerText = extra.displayName;
+                var img = document.querySelector('user');
+                img.src = `${usuarios['profile_image_url']}`;
+                console.log(extra.userId);
                 
             }
         }

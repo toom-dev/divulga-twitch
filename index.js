@@ -1,17 +1,36 @@
-var ComfyJS = require("comfy.js");
-var dotenv = require('dotenv').config();
-
-
-
-ComfyJS.onCommand = (user, command, message, flags, extra) => {
-
-    if (flags.broadcaster && command === "giripoca" && message === '') {
-        ComfyJS.Say(`Digite o nome do canal para poder divulgar! (ex: !${command} joaozinho_1)`);
-    } else if (flags.broadcaster && command === `giripoca` && message != '') {
-        ComfyJS.Say(`https://www.twitch.tv/${message}`);
-        document.querySelector('h1#haha').innerText = userBadges;
-        
-    }
+function fazGet(url) {
+    let request = new XMLHttpRequest();
+    request.open('GET', url, false);
+    request.send();
+    return request.responseText;
 }
 
-ComfyJS.Init( process.env.TWITCHUSER, process.env.OAUTH );
+function fazPost(url) {
+    let request = new XMLHttpRequest();
+    request.open('POST', url, false);
+    request.send();
+    return request.responseText;
+    
+}
+
+function main() {
+    var clientID = 'lcd1hd8vqo6q6vzjtdigizti92mydh';
+    let token = JSON.parse(getToken()).access_token;
+    console.log(getToken());
+    fazPost(`https://id.twitch.tv/oauth2/revoke?client_id=lcd1hd8vqo6q6vzjtdigizti92mydh&token=${token}`);
+    let data = fazGet(`https://api.twitch.tv/helix/users?${token}&${clientID}`);
+    let usuarios = JSON.parse(data);
+    console.log(usuarios);
+    return usuarios;
+}
+
+function getToken() {
+    var clientID = 'lcd1hd8vqo6q6vzjtdigizti92mydh',
+    clientSecret = '2ayrjsehor3rnev1fuqheorrehpb1n';
+    let url = `https://id.twitch.tv/oauth2/token?client_id=${clientID}&client_secret=${clientSecret}&grant_type=client_credentials&scope=user:read:email%20user_read`;
+
+    let request = new XMLHttpRequest();
+    request.open('POST', url, false);
+    request.send();
+    return request.responseText;
+}
