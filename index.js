@@ -1,13 +1,17 @@
-function fazGet(url) {
+function fazGet(url, clientId, token) {
     let request = new XMLHttpRequest();
     request.open('GET', url, false);
+    request.setRequestHeader('Client-ID', clientId)
+    request.setRequestHeader('Authorization', `OAuth  ${token}`)
+
     request.send();
     return request.responseText;
 }
 
-function fazPost(url) {
+function fazPost(url, token) {
     let request = new XMLHttpRequest();
     request.open('POST', url, false);
+    request.setRequestHeader('Authorization', `Bearer ${token}`)
     request.send();
     return request.responseText;
     
@@ -16,9 +20,8 @@ function fazPost(url) {
 function main() {
     var clientID = 'lcd1hd8vqo6q6vzjtdigizti92mydh';
     let token = JSON.parse(getToken()).access_token;
-    console.log(getToken());
-    fazPost(`https://id.twitch.tv/oauth2/revoke?client_id=lcd1hd8vqo6q6vzjtdigizti92mydh&token=${token}`);
-    let data = fazGet(`https://api.twitch.tv/helix/users?${token}&${clientID}`);
+    console.log(JSON.parse(getToken()));
+    let data = fazGet(`https://api.twitch.tv/kraken/user`, clientID, token);
     let usuarios = JSON.parse(data);
     console.log(usuarios);
     return usuarios;
